@@ -8,6 +8,7 @@ import { Component, Input } from '@angular/core';
   styleUrl: './tasks.component.css',
 })
 export class TasksComponent {
-  @Input({ required: true })
-  name!: string;
+  // @Input() name?: string;
+  // NOTE: Union type feature
+  @Input() user: { id: string; name: string; avatar: string } | undefined;
 }

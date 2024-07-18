@@ -9,6 +9,18 @@ import {
   EventEmitter,
 } from '@angular/core';
 
+interface User {
+  id: string;
+  name: string;
+  avatar: string;
+}
+
+// type User = {
+//   id: string;
+//   name: string;
+//   avatar: string;
+// };
+
 // import { Component, OnInit, signal, computed } from '@angular/core';
 
 // import { DUMMY_USERS } from '../dummy-users';
@@ -27,11 +39,10 @@ export class UserComponent implements OnInit {
     console.log('UserComponent initialized');
   }
 
-  // output method version (new)
-  selectUser = output<string>();
-
   // output property/decorator version (old)
-  @Output() select = new EventEmitter<string>();
+  @Output() select = new EventEmitter();
+
+  @Input({ required: true }) user!: User;
 
   @Input({ required: true }) avatar!: string; // NOTE: The ! is a non-null assertion operator, which tells TypeScript that the property is not null or undefined.
   @Input({ required: true }) name!: string; // NOTE: The ! is a non-null assertion operator, which tells TypeScript that the property is not null or undefined.
@@ -55,19 +66,12 @@ export class UserComponent implements OnInit {
   // imagePath = computed(() => `assets/users/${this.avatar()}`);
 
   get imagePath() {
-    return `assets/users/${this.avatar}`;
-  }
-
-  // output method version (new)
-  otherOnSelectUser() {
-    this.selectUser.emit(this.id);
+    return `assets/users/${this.user.avatar}`;
   }
 
   // output property/decorator version (old)
   onSelectUser() {
-    console.log('User selected');
-    console.log(this.name);
-    this.select.emit(this.id);
+    this.select.emit(this.user);
   }
 
   // onSelectUser() {

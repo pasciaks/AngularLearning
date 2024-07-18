@@ -14,17 +14,16 @@ import { CommonModule } from '@angular/common';
 export class AppComponent {
   users = DUMMY_USERS;
 
-  //selectedUser: any;
+  user: { id: string; name: string; avatar: string } | undefined;
 
-  selectedUserId = 'u1';
+  selectedUserId?: string; // = 'u1';
 
   get selectedUser() {
-    return this.users.find((user: any) => user.id === this.selectedUserId)!;
+    return this.users.find((user: any) => user.id === this.selectedUserId);
   }
 
-  onSelectUser(id: string) {
-    console.log('User selected:', id);
-    this.selectedUserId = id;
-    //this.selectedUser = this.users.find((user: any) => user.id === id);
+  onSelectUser(user: { id: string; name: string; avatar: string }) {
+    console.log('User selected:', user.id);
+    this.user = user;
   }
 }
