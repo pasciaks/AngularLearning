@@ -9,7 +9,10 @@ export class TasksService {
     const tasks = localStorage.getItem('tasks');
 
     if (tasks) {
-      this.tasks = JSON.parse(tasks);
+      const tempTasks = JSON.parse(tasks);
+      if (Array.isArray(tempTasks) && tempTasks.length > 0) {
+        this.tasks = JSON.parse(tasks);
+      }
     }
   }
 
