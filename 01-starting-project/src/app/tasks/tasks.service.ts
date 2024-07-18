@@ -1,26 +1,10 @@
 import { Injectable } from '@angular/core';
-import { NewTaskData, Task } from './task/task.model';
 
-@Injectable({
-  providedIn: 'root',
-})
+import { type NewTaskData } from './task/task.model';
+
+@Injectable({ providedIn: 'root' })
 export class TasksService {
-  constructor() {
-    const tasks = localStorage.getItem('tasks');
-
-    if (tasks) {
-      const tempTasks = JSON.parse(tasks);
-      if (Array.isArray(tempTasks) && tempTasks.length > 0) {
-        this.tasks = JSON.parse(tasks);
-      }
-    }
-  }
-
-  private saveTasks() {
-    localStorage.setItem('tasks', JSON.stringify(this.tasks));
-  }
-
-  private tasks: Task[] = [
+  private tasks = [
     {
       id: 't1',
       userId: 'u1',
@@ -46,23 +30,35 @@ export class TasksService {
     },
   ];
 
-  getUsersTasks(userId: string) {
+  constructor() {
+    const tasks = localStorage.getItem('tasks');
+
+    if (tasks) {
+      this.tasks = JSON.parse(tasks);
+    }
+  }
+
+  getUserTasks(userId: string) {
     return this.tasks.filter((task) => task.userId === userId);
   }
 
-  addTask(task: NewTaskData, userId: string) {
+  addTask(taskData: NewTaskData, userId: string) {
     this.tasks.unshift({
       id: new Date().getTime().toString(),
       userId: userId,
-      title: task.title,
-      summary: task.summary,
-      dueDate: task.date,
+      title: taskData.title,
+      summary: taskData.summary,
+      dueDate: taskData.date,
     });
     this.saveTasks();
   }
 
-  removeTask(taskId: string) {
-    this.tasks = this.tasks.filter((task) => task.id !== taskId);
+  removeTask(id: string) {
+    this.tasks = this.tasks.filter((task) => task.id !== id);
     this.saveTasks();
+  }
+
+  private saveTasks() {
+    localStorage.setItem('tasks', JSON.stringify(this.tasks));
   }
 }
