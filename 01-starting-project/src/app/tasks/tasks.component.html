@@ -1,1 +1,29 @@
-<p>{{user?.name}}</p>
+@if (isAddingTask) {
+
+<!-- <app-new-task [user]="user" (add)="onAddTask($event)" (close)="onCloseAddTask()"></app-new-task> -->
+<app-new-task [user]="user" (close)="onCloseAddTask()"></app-new-task>
+
+}
+
+<section id="tasks">
+    <header>
+        <h2>Tasks for {{user.name}}</h2>
+        <menu>
+            <button (click)="onStartAddTask()">Add Task</button>
+        </menu>
+    </header>
+    <ul>
+        @for (task of selectedUserTasks; track task.id) {
+        <li>
+            <!-- <app-task (complete)="onCompleteTask($event)" [user]="user" [task]="task"></app-task> -->
+            <app-task [user]="user" [task]="task"></app-task>
+        </li>
+        }
+    </ul>
+    <!-- <ul>
+            <li *ngFor="let task of user?.tasks">
+                <app-task [task]="task"></app-task>
+            </li>
+        </ul> -->
+
+</section>

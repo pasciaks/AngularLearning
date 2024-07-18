@@ -9,11 +9,8 @@ import {
   EventEmitter,
 } from '@angular/core';
 
-interface User {
-  id: string;
-  name: string;
-  avatar: string;
-}
+import { type User } from './user.model';
+import { CardComponent } from '../shared/card/card.component';
 
 // type User = {
 //   id: string;
@@ -30,7 +27,7 @@ interface User {
 @Component({
   selector: 'app-user',
   standalone: true,
-  imports: [],
+  imports: [CardComponent],
   templateUrl: './user.component.html',
   styleUrl: './user.component.css',
 })
@@ -47,6 +44,8 @@ export class UserComponent implements OnInit {
   @Input({ required: true }) avatar!: string; // NOTE: The ! is a non-null assertion operator, which tells TypeScript that the property is not null or undefined.
   @Input({ required: true }) name!: string; // NOTE: The ! is a non-null assertion operator, which tells TypeScript that the property is not null or undefined.
   @Input({ required: true }) id!: string; // NOTE: The ! is a non-null assertion operator, which tells TypeScript that the property is not null or undefined.
+
+  @Input({ required: true }) selected!: boolean; // NOTE: The ! is a non-null assertion operator, which tells TypeScript that the property is not null or undefined.
 
   // NOTE: Below are signal and computed examples
 
