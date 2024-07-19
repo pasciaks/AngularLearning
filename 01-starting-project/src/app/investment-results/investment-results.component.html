@@ -1,0 +1,33 @@
+@if (!results || results.length===0) {
+<p class="center">Please enter some values and press calculate.</p>
+} @else {
+<table>
+    <thead>
+        <tr>
+            <th>Year</th>
+            <th>Investment Value</th>
+            <th>Interest Year</th>
+            <th>Total Interest Earned</th>
+            <th>Invested Capital</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- <tr *ngFor="let result of results">
+            <td>{{ result.year}}</td>
+            <td>{{ result.totalAmountInvested | currency }}</td>
+            <td>{{ result.interest | currency }}</td>
+            <td>{{ result.totalInterest | currency }}</td>
+            <td>{{ result.valueEndOfYear | currency }}</td>
+        </tr> -->
+        @for (result of results; track result.year) {
+        <tr>
+            <td>{{ result.year }}</td>
+            <td>{{ result.valueEndOfYear | currency }}</td>
+            <td>{{ result.interest | currency }}</td>
+            <td>{{ result.totalInterest | currency }}</td>
+            <td>{{ result.totalAmountInvested | currency }}</td>
+        </tr>
+        }
+    </tbody>
+</table>
+}

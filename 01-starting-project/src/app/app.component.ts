@@ -1,27 +1,26 @@
 import { Component } from '@angular/core';
-
-import { DUMMY_USERS } from './dummy-users';
-
 import { HeaderComponent } from './header/header.component';
-import { UserComponent } from './user/user.component';
-import { TasksComponent } from './tasks/tasks.component';
+import { UserInputComponent } from './user-input/user-input.component';
+import { InvestmentService } from './investment.service';
+import { InvestmentInput } from './investment-input.model';
+import { InvestmentResultsComponent } from './investment-results/investment-results.component';
+import { InvestmentResult } from './investment-result.model';
 
 @Component({
   selector: 'app-root',
-  standalone: false, // true,
+  standalone: true,
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css',
-  // imports: [HeaderComponent, UserComponent, TasksComponent],
+  imports: [HeaderComponent, UserInputComponent, InvestmentResultsComponent],
 })
 export class AppComponent {
-  users = DUMMY_USERS;
-  selectedUserId?: string;
+  constructor(private investmentService: InvestmentService) {}
 
-  get selectedUser() {
-    return this.users.find((user) => user.id === this.selectedUserId);
-  }
-
-  onSelectUser(id: string) {
-    this.selectedUserId = id;
+  investmentResults?: InvestmentResult[];
+  onCalculateInvestmentResults(data: InvestmentInput) {
+    console.log('Data: ', data);
+    let result: InvestmentResult[] =
+      this.investmentService.calculateInvestmentResults(data);
+    console.log('Result: ', result);
+    this.investmentResults = result;
   }
 }
