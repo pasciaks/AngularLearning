@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { HeaderComponent } from './header/header.component';
 import { UserInputComponent } from './user-input/user-input.component';
 import { InvestmentService } from './investment.service';
@@ -15,12 +15,14 @@ import { InvestmentResult } from './investment-result.model';
 export class AppComponent {
   constructor(private investmentService: InvestmentService) {}
 
-  investmentResults?: InvestmentResult[];
+  // investmentResults?: InvestmentResult[];
+
+  // investmentResults = signal<InvestmentResult[] | undefined>(undefined);
+
   onCalculateInvestmentResults(data: InvestmentInput) {
-    console.log('Data: ', data);
-    let result: InvestmentResult[] =
-      this.investmentService.calculateInvestmentResults(data);
-    console.log('Result: ', result);
-    this.investmentResults = result;
+    //let result: InvestmentResult[] =
+
+    this.investmentService.calculateInvestmentResults(data);
+    //this.investmentResults.set(result);
   }
 }

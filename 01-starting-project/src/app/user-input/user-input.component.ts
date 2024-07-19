@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, output } from '@angular/core';
+import { Component, EventEmitter, Output, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { InvestmentService } from '../investment.service';
 import { InvestmentInput } from '../investment-input.model';
@@ -13,27 +13,28 @@ import { InvestmentInput } from '../investment-input.model';
 export class UserInputComponent {
   constructor(private investmentService: InvestmentService) {}
 
-  initialInvestment: string = '0';
-  annualInvestment: string = '0';
-  returnRate: string = '5';
-  duration: string = '10';
+  initialInvestment = signal('0'); //: string = '0';
+  annualInvestment = signal('0'); //: string = '0';
+  returnRate = signal('5'); //: string = '5';
+  duration = signal('10'); //: string = '10';
 
   @Output() calculate = new EventEmitter<InvestmentInput>();
+
   onSubmit() {
-    console.log('Initial Investment: ' + this.initialInvestment);
-    console.log('Annual Investment: ' + this.annualInvestment);
-    console.log('Return Rate: ' + this.returnRate);
-    console.log('Duration: ' + this.duration);
+    console.log('Initial Investment: ' + this.initialInvestment());
+    console.log('Annual Investment: ' + this.annualInvestment());
+    console.log('Return Rate: ' + this.returnRate());
+    console.log('Duration: ' + this.duration());
 
     let data = {
-      initialInvestment: Number(this.initialInvestment),
-      annualInvestment: Number(this.annualInvestment),
-      expectedReturn: Number(this.returnRate),
-      duration: Number(this.duration),
+      initialInvestment: Number(this.initialInvestment()),
+      annualInvestment: Number(this.annualInvestment()),
+      expectedReturn: Number(this.returnRate()),
+      duration: Number(this.duration()),
     };
 
-    this.calculate.emit(data);
+    //this.calculate.emit(data);
 
-    // let result = this.investmentService.calculateInvestmentResults(data);
+    this.investmentService.calculateInvestmentResults(data);
   }
 }
