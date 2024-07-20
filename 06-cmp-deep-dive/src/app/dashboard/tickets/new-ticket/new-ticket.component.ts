@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { ControlComponent } from '../../../shared/control/control.component';
 
 @Component({
@@ -7,5 +7,6 @@ import { ControlComponent } from '../../../shared/control/control.component';
   imports: [ControlComponent],
   templateUrl: './new-ticket.component.html',
   styleUrl: './new-ticket.component.css',
+  // encapsulation: ViewEncapsulation.None,
 })
 export class NewTicketComponent {}
