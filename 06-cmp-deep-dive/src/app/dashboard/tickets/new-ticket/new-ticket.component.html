@@ -1,10 +1,10 @@
 <form #form (ngSubmit)="onSubmit(titleInput,requestInput, btn)">
   <app-control label="Title">
     <!-- Angular template variables (#titleInput) are used to bind the input elements to the form model. -->
-    <input name="title" id="title" #titleInput #input />
+    <input [(ngModel)]="enteredTitle" name="title" id="title" #titleInput #input />
   </app-control>
   <app-control label="Request">
-    <textarea name="request" id="request" #requestInput #input rows="3"></textarea>
+    <textarea [(ngModel)]="enteredText" name="request" id="request" #requestInput #input rows="3"></textarea>
   </app-control>
   <p>
     <button appButton #btn [disabled]="this.isDisabled">

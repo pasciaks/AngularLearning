@@ -2,7 +2,10 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  EventEmitter,
   OnInit,
+  output,
+  Output,
   viewChild,
   ViewChild,
   ViewChildren,
@@ -11,6 +14,7 @@ import {
 import { ControlComponent } from '../../../shared/control/control.component';
 import { FormsModule, NgForm } from '@angular/forms';
 import { ButtonComponent } from '../../../shared/button/button.component';
+import { Ticket } from '../ticket.model';
 
 @Component({
   selector: 'app-new-ticket',
@@ -21,9 +25,15 @@ import { ButtonComponent } from '../../../shared/button/button.component';
   // encapsulation: ViewEncapsulation.None,
 })
 export class NewTicketComponent implements OnInit, AfterViewInit {
+  // @Output() add = new EventEmitter<Ticket>();
+  add = output<{ title: string; request: string }>();
+
   @ViewChild('form') formElement?: ElementRef<HTMLFormElement>;
 
   @ViewChildren(ControlComponent) controlComponents?: ControlComponent[];
+
+  enteredTitle: string = '';
+  enteredText: string = '';
 
   ngOnInit(): void {
     // NOTE: view child elements are NOT available here
@@ -40,27 +50,43 @@ export class NewTicketComponent implements OnInit, AfterViewInit {
     viewChild.required<ElementRef<HTMLFormElement>>('form');
 
   isDisabled: boolean = false;
+
   onSubmit(
     titleElement: HTMLInputElement,
     requestElement: HTMLTextAreaElement,
     btn: ButtonComponent
   ) {
-    console.log('Form submitted');
-    console.log('Title:', titleElement.value);
-    console.log('Request:', requestElement.value);
+    // using two way binding
+    console.log(this.enteredText);
+    console.log(this.enteredTitle);
+
+    // console.log('Form submitted');
+    // console.log('Title:', titleElement.value);
+    // console.log('Request:', requestElement.value);
 
     this.isDisabled = true;
 
-    console.log('Button:', btn);
+    // console.log('Button:', btn);
 
-    setTimeout(() => {
-      this.formElement?.nativeElement.reset();
-      this.isDisabled = false;
+    // this.formElement?.nativeElement.reset();
+    this.isDisabled = false;
 
-      // alternative to ViewChild (protect against undefined)
-      this.formEl()?.nativeElement.reset();
-      // alternative to ViewChild (required)
-      this.formElRequired().nativeElement.reset();
-    }, 2000);
+    console.log({
+      title: titleElement.value,
+      request: requestElement.value,
+    });
+
+    this.add.emit({
+      title: titleElement.value,
+      request: requestElement.value,
+    });
+
+    this.enteredText = '';
+    this.enteredTitle = '';
+
+    // alternative to ViewChild (protect against undefined)
+    this.formEl()?.nativeElement.reset();
+    // alternative to ViewChild (required)
+    this.formElRequired().nativeElement.reset();
   }
 }

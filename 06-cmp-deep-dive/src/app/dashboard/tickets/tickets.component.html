@@ -1,3 +1,23 @@
+<div id="ticket-list">
+    <ul>
+        <!-- // @for and special values works in angular version 17 or later -->
+        @for (ticket of tickets; track ticket.id) {
+        <li>
+            <!-- first {{$first}}<br>
+            odd {{$odd}}<br>
+            even {{$even}}<br>
+            last {{$last}}<br>
+            index {{$index}}<br>
+            count {{$count}}<br> -->
+            <app-ticket (close)="onClose(ticket.id)" [data]="ticket" (remove)="this.onRemove(ticket)"></app-ticket>
+        </li>
+        } @empty {
+
+        <p>No tickets found</p>
+
+        }
+    </ul>
+</div>
 <div id="new-ticket">
-    <app-new-ticket></app-new-ticket>
+    <app-new-ticket (add)="this.onAdd($event)"></app-new-ticket>
 </div>

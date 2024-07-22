@@ -37,7 +37,7 @@ export class ServerStatusComponent implements OnInit {
       // (signal that is subscribed to)
       const timer = setTimeout(() => {
         console.log(`Current number of tasks: ${this.currentStatusSignal()}`);
-      }, 1000);
+      }, 5555);
       onCleanup(() => {
         clearTimeout(timer);
       });
@@ -70,7 +70,7 @@ export class ServerStatusComponent implements OnInit {
         this.currentStatus = 'unknown';
       }
       this.currentStatusSignal.set(this.currentStatus);
-    }, 1000);
+    }, 5555);
 
     // Part of an alternative to ngOnDestroy in newer Angular versions
     this.destroyRef.onDestroy(() => {

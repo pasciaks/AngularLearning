@@ -42,16 +42,16 @@ export class ControlComponent implements AfterContentInit {
 
   constructor() {
     afterRender(() => {
-      console.log('anytime anything is rendered APP WIDE');
+      //console.log('anytime anything is rendered APP WIDE');
     });
 
     afterNextRender(() => {
-      console.log('anytime anything is next rendered APP WIDE');
+      //console.log('anytime anything is next rendered APP WIDE');
     });
   }
 
   @HostListener('mouseenter') onMouseEnter() {
-    console.log('Control mouseenter');
+    //console.log('Control mouseenter');
   }
 
   // getting hold of projected content
@@ -64,10 +64,9 @@ export class ControlComponent implements AfterContentInit {
     contentChild<ElementRef<HTMLInputElement | HTMLTextAreaElement>>('input');
 
   onClick() {
-    console.log('Control clicked');
-    console.log(this.el);
-
-    console.log('Content:', this.content?.nativeElement.value);
-    console.log('Content Control signal:', this.control()?.nativeElement.value);
+    //console.log('Control clicked');
+    //console.log(this.el);
+    //console.log('Content:', this.content?.nativeElement.value);
+    //console.log('Content Control signal:', this.control()?.nativeElement.value);
   }
 }
