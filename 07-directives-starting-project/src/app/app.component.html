@@ -1,0 +1,29 @@
+<main>
+
+  <app-learning-resources />
+
+  <hr />
+
+  <app-auth />
+
+  <!-- @if (isAdmin()) {
+  <p>You are an admin</p>
+  } @else {
+  <p>You are not an admin</p>
+  } -->
+
+  <!-- {{isAdmin() ? 'You are an admin' : 'You are not an admin'}} -->
+
+  <!-- <p *ngIf="isAdmin()">(ADMIN) Structural Directive preceeds with * character.</p> -->
+  <!-- <p *ngIf="!isAdmin()">(NOT ADMIN) Structural Directive preceeds with * character.</p> -->
+
+  <ng-template appAuth="admin">
+    <p>Is Admin!!!</p>
+    <p>Additional elements as well.</p>
+  </ng-template>
+
+  <p class="protected-content admin" appLog *appAuth="'admin'">Is Admin!!!</p>
+  <p class="protected-content authenticated" *appAuth="'user'">Regular Users!!!</p>
+  <p class="protected-content unauthenticated" *appAuth="'guest'">Guest Users!!!</p>
+
+</main>
