@@ -23,7 +23,10 @@ export class AppComponent {
   ];
 
   onReset(index: number) {
+    // pure false for pipe does not cache so this works
     // this.historicTemperatures[index] = 18;
+
+    // pure default of true, so updates must be done like this
     const newTemps = [...this.historicTemperatures];
     newTemps[index] = 18;
     this.historicTemperatures = newTemps;

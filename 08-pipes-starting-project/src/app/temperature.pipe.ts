@@ -3,6 +3,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 @Pipe({
   name: 'temperature',
   standalone: true,
+  // pure: false, // default is true, by being false it will not cache result
 })
 export class TemperaturePipe implements PipeTransform {
   transform(value: string | number | null, ...args: string[]): string {
