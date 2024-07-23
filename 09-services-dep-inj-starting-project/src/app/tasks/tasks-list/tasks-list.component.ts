@@ -2,18 +2,23 @@ import { Component, computed, inject, signal } from '@angular/core';
 
 import { TaskItemComponent } from './task-item/task-item.component';
 import { TasksService } from '../tasks.service';
+import { TASK_STATUS_OPTIONS, taskStatusOptionsProvider } from '../task.model';
+import { NgFor } from '@angular/common';
 
 @Component({
   selector: 'app-tasks-list',
   standalone: true,
   templateUrl: './tasks-list.component.html',
   styleUrl: './tasks-list.component.css',
-  imports: [TaskItemComponent],
+  imports: [TaskItemComponent, NgFor],
+  providers: [taskStatusOptionsProvider],
 })
 export class TasksListComponent {
   private tasksService: TasksService = inject(TasksService);
 
   selectedFilter = signal<string>('all');
+
+  taskStatusOptions = inject(TASK_STATUS_OPTIONS);
 
   tasks = computed(() => {
     switch (this.selectedFilter()) {
