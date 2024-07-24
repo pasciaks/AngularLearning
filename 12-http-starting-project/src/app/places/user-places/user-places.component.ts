@@ -5,6 +5,8 @@ import { PlacesComponent } from '../places.component';
 import { Place } from '../place.model';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map, throwError } from 'rxjs';
+import { PlacesService } from '../places.service';
+import { ErrorService } from '../../shared/error.service';
 
 @Component({
   selector: 'app-user-places',
@@ -17,52 +19,54 @@ export class UserPlacesComponent implements OnInit {
   private httpClient = inject(HttpClient);
   private destroyRef = inject(DestroyRef);
 
-  places = signal<Place[] | undefined>([]);
+  placesService = inject(PlacesService);
+
+  // places = signal<Place[] | undefined>([]);
+
+  places = this.placesService.loadedUserPlaces;
+
   isFetching = signal(false);
+
   error = signal<string | null>(null);
+
+  errorService = inject(ErrorService);
+
+  onRemovePlace(place: Place) {
+    const subscription = this.placesService.removeUserPlace(place).subscribe({
+      error: (err) => {
+        this.errorService.showError(
+          err?.message || 'An unknown remove favorite attempt error occurred!'
+        );
+        console.error(err);
+        this.error.set(err?.message || 'An unknown error occurred!');
+      },
+      next: () => {
+        // this.places.update((places) => {
+        //   return places.filter((p) => p.id !== place.id);
+        // });
+      },
+    });
+
+    this.destroyRef.onDestroy(() => {
+      subscription.unsubscribe();
+    });
+  }
 
   ngOnInit(): void {
     this.isFetching.set(true);
-    const subscription = this.httpClient
-      .get<{ places: Place[] }>('http://localhost:3000/user-places', {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        // observe: 'response',
-        // observe: 'events',
-      })
-      .pipe(
-        map((resData) => {
-          return resData.places;
-        }),
-        catchError((error, obs) => {
-          // Send to analytics
-          if (error.status === 500) {
-            return throwError(() => {
-              return new Error('A customized error occurred! ' + error.message);
-            });
-          }
-          return throwError(() => {
-            return new Error(
-              'A different customized error occurred! ' + error.message
-            );
-          });
-        })
-      )
-      .subscribe({
-        next: (places) => {
-          this.places.set(places);
-        },
-        complete: () => {
-          this.isFetching.set(false);
-        },
-
-        error: (err) => {
-          console.error(err);
-          this.isFetching.set(false);
-          this.error.set(err?.message || 'An unknown error occurred!');
-        },
-      });
+    const subscription = this.placesService.loadUserPlaces().subscribe({
+      // next: (places) => {
+      //   this.places.set(places);
+      // },
+      complete: () => {
+        this.isFetching.set(false);
+      },
+      error: (err) => {
+        console.error(err);
+        this.isFetching.set(false);
+        this.error.set(err?.message || 'An unknown error occurred!');
+      },
+    });
 
     this.destroyRef.onDestroy(() => {
       subscription.unsubscribe();

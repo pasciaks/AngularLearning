@@ -59,6 +59,8 @@ app.put("/user-places", async (req, res) => {
     JSON.stringify(updatedUserPlaces)
   );
 
+  // return res.status(500).json();
+
   res.status(200).json({ userPlaces: updatedUserPlaces });
 });
 
