@@ -9,41 +9,50 @@ import {
   OnInit,
 } from '@angular/core';
 import { MessagesService } from '../messages.service';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-messages-list',
   standalone: true,
   templateUrl: './messages-list.component.html',
   styleUrl: './messages-list.component.css',
+  imports: [AsyncPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
 // TRIGERRING CHANGE DETECTION MANUALLY
-export class MessagesListComponent implements OnInit, OnDestroy {
-  ngOnDestroy(): void {
-    console.log('MessagesListComponent in ngOnDestroy destroyed.');
-  }
+export class MessagesListComponent /* implements OnInit, OnDestroy */ {
+  ////private destroyRef = inject(DestroyRef);
 
-  private destroyRef = inject(DestroyRef);
-  ngOnInit(): void {
-    // TRIGERRING CHANGE DETECTION MANUALLY
-    const subscription = this.messagesService.messages$.subscribe(
-      (messages: string[]) => {
-        this.messages = messages;
-        this.cdRef.markForCheck();
-      }
-    );
-    // CLEAN UP SUSCRIPTION ON DESTROY
-    this.destroyRef.onDestroy(() => {
-      console.log('MessagesListComponentin destroy ref destroyed.');
-      subscription.unsubscribe();
-    });
-  }
   // messages = input.required<string[]>();
-  private cdRef = inject(ChangeDetectorRef);
+  ////private cdRef = inject(ChangeDetectorRef);
+
   private messagesService = inject(MessagesService);
 
-  messages: string[] = [];
+  ////messages: string[] = [];
+
+  // Alternate version, no need for destroyRef, etc
+  // Asynchronous pipe in the template will handle the subscription
+  altVersionMessages$ = this.messagesService.messages$;
+
+  // ngOnDestroy(): void {
+  //   console.log('MessagesListComponent in ngOnDestroy destroyed.');
+  // }
+
+  // ngOnInit(): void {
+  //   // TRIGERRING CHANGE DETECTION MANUALLY
+  //   const subscription = this.messagesService.messages$.subscribe(
+  //     (messages: string[]) => {
+  //       this.messages = messages;
+  //       this.cdRef.markForCheck();
+  //     }
+  //   );
+  //   // CLEAN UP SUSCRIPTION ON DESTROY
+  //   this.destroyRef.onDestroy(() => {
+  //     console.log('MessagesListComponentin destroy ref destroyed.');
+  //     subscription.unsubscribe();
+  //   });
+  // }
 
   // get messages() {
   //   return this.messagesService.allMessages;

@@ -1,6 +1,6 @@
 <ul>
   <!-- @for (message of messages(); track message) { -->
-  @for (message of messages; track message) {
+  @for (message of altVersionMessages$ | async; track message) {
   <li>{{ message }}</li>
   }
 </ul>
