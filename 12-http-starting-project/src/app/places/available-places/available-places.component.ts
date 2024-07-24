@@ -80,4 +80,21 @@ export class AvailablePlacesComponent implements OnInit {
   places = signal<Place[] | undefined>(undefined);
 
   constructor() {}
+
+  onSelectPlace(selectedPlace: Place) {
+    console.log(selectedPlace);
+
+    this.httpClient
+      .put('http://localhost:3000/user-places', {
+        placeId: selectedPlace.id,
+      })
+      .subscribe({
+        next: (response) => {
+          console.log(response);
+        },
+        error: (err) => {
+          console.error(err);
+        },
+      });
+  }
 }
