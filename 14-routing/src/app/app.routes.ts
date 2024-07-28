@@ -5,7 +5,7 @@ import { NoTaskComponent } from './tasks/no-task/no-task.component';
 import { UserTasksComponent } from './users/user-tasks/user-tasks.component';
 import { TaskComponent } from './tasks/task/task.component';
 import { NewTaskComponent } from './tasks/new-task/new-task.component';
-
+import { NotFoundComponent } from './not-found/not-found.component';
 export const routes: Routes = [
   {
     path: '',
@@ -25,9 +25,13 @@ export const routes: Routes = [
       },
     ],
   },
-  // default error route for unmatched routes
+  // default / catch all route - error route for unmatched routes
   {
     path: '**',
-    redirectTo: '',
+    component: NotFoundComponent,
   },
+  // {
+  //   path: '**',
+  //   redirectTo: '',
+  // },
 ];

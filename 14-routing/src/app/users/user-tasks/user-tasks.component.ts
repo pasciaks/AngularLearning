@@ -6,7 +6,12 @@ import {
   input,
   OnInit,
 } from '@angular/core';
-import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
+import {
+  ActivatedRoute,
+  Router,
+  RouterLink,
+  RouterOutlet,
+} from '@angular/router';
 import { UsersService } from '../users.service';
 
 @Component({
@@ -14,7 +19,7 @@ import { UsersService } from '../users.service';
   standalone: true,
   templateUrl: './user-tasks.component.html',
   styleUrl: './user-tasks.component.css',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, RouterLink],
 })
 export class UserTasksComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
