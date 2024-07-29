@@ -1,4 +1,13 @@
 <p>(Child route getting parent route params) -> {{userId()}}</p>
+
+
+<p>
+  <a routerLink="./" [queryParams]="{order:order() ==='asc' ?'desc' : 'asc'}">
+    Sort {{ order()=== 'asc' ? 'DESCENDING' : 'ASCENDING' }}
+  </a>
+</p>
+
+
 <ul>
   @for (task of userTasks(); track task.id) {
   <li>
